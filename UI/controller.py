@@ -13,8 +13,20 @@ class Controller:
         self.fillIDMap()
 
     def handleWorstCase(self, e):
-        # TO FILL
-        pass
+        try:
+            self._view._txtOut.clean()
+            self.anni = int(self._view._txtYears.value)
+            self.ore = int(self._view._txtHours.value)
+            if self._view._ddNerc.value is None:
+                self._view.create_alert('Nerc non inserito')
+            else:
+                lista = self._model.worstCase(self._view._ddNerc.value,self.anni,self.ore)
+                for i in lista:
+                    self._view._txtOut.controls.append(ft.Text(i))
+                self._view.update_page()
+
+        except ValueError:
+            self._view.create_alert('Ore o anni non inseriti correttamente')
 
     def fillDD(self):
         nercList = self._model.listNerc
