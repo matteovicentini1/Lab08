@@ -36,9 +36,9 @@ class DAO():
         query = """ SELECT *
          FROM poweroutages p
           WHERE p.nerc_id = %s
-          ORDER BY p.date_event_finished DESC"""
+          ORDER BY p.nerc_id DESC"""
 
-        cursor.execute(query, (nerc.id,))
+        cursor.execute(query, (nerc._id,))
 
         for row in cursor:
             result.append(

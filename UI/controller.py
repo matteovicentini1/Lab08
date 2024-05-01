@@ -13,14 +13,19 @@ class Controller:
         self.fillIDMap()
 
     def handleWorstCase(self, e):
+        self._view._txtOut.clean()
         try:
-            self._view._txtOut.clean()
             self.anni = int(self._view._txtYears.value)
             self.ore = int(self._view._txtHours.value)
             if self._view._ddNerc.value is None:
                 self._view.create_alert('Nerc non inserito')
             else:
-                lista = self._model.worstCase(self._view._ddNerc.value,self.anni,self.ore)
+                lista,time,popolo = self._model.worstCase(self._view._ddNerc.value,self.anni,self.ore)
+                self._view._txtOut.controls.append(ft.Text(f'Waiting...'))
+                self._view.update_page()
+                self._view._txtOut.clean()
+                self._view._txtOut.controls.append(ft.Text(f'Totale persone colpite: {popolo}'))
+                self._view._txtOut.controls.append(ft.Text(f'Totale ore di disservizio: {time}'))
                 for i in lista:
                     self._view._txtOut.controls.append(ft.Text(i))
                 self._view.update_page()
